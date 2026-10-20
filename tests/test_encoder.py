@@ -9,25 +9,25 @@ from flipper_bizcard.encoder.flipper_nfc import serialize_flipper_nfc, parse_fli
 class TestFlipperNfcCard(unittest.TestCase):
 
     def test_uri_record_prefix_compression(self):
-        record = build_uri_record("https://github.com/reuben")
+        record = build_uri_record("https://github.com/example")
         self.assertTrue(record[0] & 0x80)  # MB
         self.assertTrue(record[0] & 0x40)  # ME
         self.assertEqual(record[1], 1)     # Type length
         self.assertEqual(record[3], ord("U"))  # Type 'U'
         self.assertEqual(record[4], 0x04)      # 0x04 is 'https://' prefix code
-        self.assertEqual(record[5:].decode("utf-8"), "github.com/reuben")
+        self.assertEqual(record[5:].decode("utf-8"), "github.com/example")
 
     def test_vcard_record_structure(self):
         record = build_vcard_record(
-            full_name="Reuben Smith",
-            phone="+61400000000",
-            email="reuben@example.com",
+            full_name="Jane Doe",
+            phone="+15550192834",
+            email="jane.doe@example.com",
             title="Software Engineer"
         )
         self.assertIn(b"text/vcard", record)
         self.assertIn(b"BEGIN:VCARD", record)
-        self.assertIn(b"FN:Reuben Smith", record)
-        self.assertIn(b"TEL;TYPE=CELL,VOICE:+61400000000", record)
+        self.assertIn(b"FN:Jane Doe", record)
+        self.assertIn(b"TEL;TYPE=CELL,VOICE:+15550192834", record)
         self.assertIn(b"END:VCARD", record)
 
     def test_wrap_in_ndef_tlv(self):
@@ -51,7 +51,7 @@ class TestFlipperNfcCard(unittest.TestCase):
         self.assertEqual(pages[4][0], 0x03)
 
     def test_flipper_nfc_roundtrip(self):
-        url = "https://linkedin.com/in/reuben"
+        url = "https://linkedin.com/in/example"
         tlv = wrap_in_ndef_tlv(build_uri_record(url))
         uid, _, _ = generate_valid_uid()
         pages = format_ntag215_memory(tlv, uid_override=uid)

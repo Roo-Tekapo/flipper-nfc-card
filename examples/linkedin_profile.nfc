@@ -3,7 +3,7 @@ Version: 4
 # Device type can be ISO14443-3A, ISO14443-3B, ISO14443-4A, ISO14443-4B, ISO15693-3, FeliCa, NTAG/Ultralight, Mifare Classic, Mifare Plus, Mifare DESFire, SLIX, ST25TB
 Device type: NTAG/Ultralight
 # UID is common for all formats
-UID: 04 A0 FB AE E7 3F ED
+UID: 04 54 44 F4 67 9F 22
 # ISO14443-3A specific data
 ATQA: 00 44
 SAK: 00
@@ -20,19 +20,19 @@ Counter 2: 0
 Tearing 2: 00
 Pages total: 135
 Pages read: 135
-Page 0: 04 A0 FB D7
-Page 1: AE E7 3F ED
-Page 2: 9B 48 00 00
+Page 0: 04 54 44 9C
+Page 1: F4 67 9F 22
+Page 2: 2E 48 00 00
 Page 3: E1 10 6D 00
-Page 4: 03 1B D1 01
-Page 5: 17 55 04 6C
+Page 4: 03 21 D1 01
+Page 5: 1D 55 04 6C
 Page 6: 69 6E 6B 65
 Page 7: 64 69 6E 2E
 Page 8: 63 6F 6D 2F
-Page 9: 69 6E 2F 72
-Page 10: 65 75 62 65
-Page 11: 6E FE 00 00
-Page 12: 00 00 00 00
+Page 9: 69 6E 2F 79
+Page 10: 6F 75 72 75
+Page 11: 73 65 72 6E
+Page 12: 61 6D 65 FE
 Page 13: 00 00 00 00
 Page 14: 00 00 00 00
 Page 15: 00 00 00 00

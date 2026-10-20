@@ -35,9 +35,9 @@ function updatePreview() {
   const lcdExtra = document.getElementById("lcd-extra");
 
   if (currentMode === "url") {
-    const url = document.getElementById("input-url").value.trim() || "https://flipperzero.one";
-    const name = document.getElementById("input-url-title").value.trim() || "Link";
-    const subtitle = document.getElementById("input-url-subtitle").value.trim() || "Website";
+    const url = document.getElementById("input-url").value.trim() || "https://github.com/yourusername";
+    const name = document.getElementById("input-url-title").value.trim() || "Alex Doe";
+    const subtitle = document.getElementById("input-url-subtitle").value.trim() || "Software Engineer";
 
     iosIcon.innerHTML = "&#127760;";
     iosIcon.style.background = "#007aff";
@@ -48,12 +48,12 @@ function updatePreview() {
     lcdSubtitle.textContent = subtitle;
     lcdExtra.innerHTML = "&#128225; Ready to beam link";
   } else {
-    const name = document.getElementById("input-vcard-name").value.trim() || "Reuben";
-    const role = document.getElementById("input-vcard-role").value.trim() || "Developer";
-    const org = document.getElementById("input-vcard-org").value.trim();
-    const phone = document.getElementById("input-vcard-phone").value.trim() || "+61 400 123 456";
-    const email = document.getElementById("input-vcard-email").value.trim() || "reuben@example.com";
-    const url = document.getElementById("input-vcard-url").value.trim() || "https://github.com/reuben";
+    const name = document.getElementById("input-vcard-name").value.trim() || "Alex Doe";
+    const role = document.getElementById("input-vcard-role").value.trim() || "Full Stack Developer";
+    const org = document.getElementById("input-vcard-org").value.trim() || "Tech Studio";
+    const phone = document.getElementById("input-vcard-phone").value.trim() || "+1 (555) 019-2834";
+    const email = document.getElementById("input-vcard-email").value.trim() || "alex.doe@example.com";
+    const url = document.getElementById("input-vcard-url").value.trim() || "https://github.com/yourusername";
     const note = document.getElementById("input-vcard-note") ? document.getElementById("input-vcard-note").value.trim() : "Met via Flipper NFC";
 
     iosIcon.innerHTML = "&#128100;";
@@ -75,7 +75,7 @@ function updatePreview() {
     const sheetUrlEl = document.getElementById("sheet-url");
     const sheetNoteEl = document.getElementById("sheet-note");
 
-    if (avatarEl) avatarEl.textContent = name.charAt(0).toUpperCase() || "R";
+    if (avatarEl) avatarEl.textContent = name.charAt(0).toUpperCase() || "A";
     if (sheetNameEl) sheetNameEl.textContent = name;
     if (sheetHeadlineEl) {
       sheetHeadlineEl.textContent = [role, org].filter(Boolean).join(" • ") || "Contact";
@@ -266,7 +266,6 @@ function serializeToFlipperNfc(uid, pages) {
   }
 
   lines.push("Failed authentication attempts: 0");
-  // Strict Unix LF line endings
   return lines.join("\n") + "\n";
 }
 
@@ -310,7 +309,6 @@ function generateAndDownloadNFC() {
   const { uid, pages } = formatNtag215(tlvData);
   const nfcContent = serializeToFlipperNfc(uid, pages);
 
-  // Trigger download with text/plain and strict LF
   const blob = new Blob([nfcContent], { type: "text/plain;charset=utf-8" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
@@ -321,5 +319,4 @@ function generateAndDownloadNFC() {
   URL.revokeObjectURL(a.href);
 }
 
-// Initial preview update
 updatePreview();

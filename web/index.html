@@ -27,23 +27,23 @@
         <div id="url-fields">
           <div class="form-group">
             <label for="input-url">Destination URL *</label>
-            <input type="url" id="input-url" placeholder="https://linkedin.com/in/yourname" value="https://github.com/reuben">
+            <input type="url" id="input-url" placeholder="https://github.com/yourusername" value="https://github.com/yourusername">
             <small class="field-hint">Opens directly in Safari or Chrome when tapped.</small>
           </div>
           <div class="form-group">
             <label for="input-url-title">Your Name / Handle</label>
-            <input type="text" id="input-url-title" placeholder="Reuben" value="Reuben">
+            <input type="text" id="input-url-title" placeholder="Alex Doe" value="Alex Doe">
           </div>
           <div class="form-group">
             <label for="input-url-subtitle">Role / Subtitle</label>
-            <input type="text" id="input-url-subtitle" placeholder="Software Engineer" value="Developer">
+            <input type="text" id="input-url-subtitle" placeholder="Software Engineer" value="Software Engineer">
           </div>
         </div>
 
         <div id="vcard-fields" style="display: none;">
           <div class="form-group">
             <label for="input-vcard-name">Full Name *</label>
-            <input type="text" id="input-vcard-name" placeholder="Reuben" value="Reuben">
+            <input type="text" id="input-vcard-name" placeholder="Alex Doe" value="Alex Doe">
           </div>
           <div class="form-row">
             <div class="form-group">
@@ -52,26 +52,26 @@
             </div>
             <div class="form-group">
               <label for="input-vcard-org">Company / Organization</label>
-              <input type="text" id="input-vcard-org" placeholder="Studio" value="Tech Studio">
+              <input type="text" id="input-vcard-org" placeholder="Tech Studio" value="Tech Studio">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label for="input-vcard-phone">Phone Number</label>
-              <input type="tel" id="input-vcard-phone" placeholder="+61 400 123 456" value="+61 400 123 456">
+              <input type="tel" id="input-vcard-phone" placeholder="+1 (555) 019-2834" value="+1 (555) 019-2834">
             </div>
             <div class="form-group">
               <label for="input-vcard-email">Email Address</label>
-              <input type="email" id="input-vcard-email" placeholder="reuben@example.com" value="reuben@example.com">
+              <input type="email" id="input-vcard-email" placeholder="alex.doe@example.com" value="alex.doe@example.com">
             </div>
           </div>
           <div class="form-group">
             <label for="input-vcard-url">Website / Portfolio / LinkedIn</label>
-            <input type="url" id="input-vcard-url" placeholder="https://github.com/reuben" value="https://github.com/reuben">
+            <input type="url" id="input-vcard-url" placeholder="https://github.com/yourusername" value="https://github.com/yourusername">
           </div>
           <div class="form-group">
             <label for="input-vcard-note">Bio / Note</label>
-            <input type="text" id="input-vcard-note" placeholder="Met via Flipper NFC" value="Met via Flipper Zero NFC">
+            <input type="text" id="input-vcard-note" placeholder="Met via Flipper Zero NFC" value="Met via Flipper Zero NFC">
           </div>
         </div>
 
@@ -92,7 +92,7 @@
               <div class="ios-icon" id="ios-icon">&#127760;</div>
               <div class="ios-text">
                 <h4 id="ios-title">Website NFC Tag</h4>
-                <p id="ios-subtitle">Open "https://github.com/reuben" in Safari</p>
+                <p id="ios-subtitle">Open "https://github.com/yourusername" in Safari</p>
               </div>
             </div>
           </div>
@@ -100,8 +100,8 @@
           <!-- Expanded iOS Contact Sheet Preview (for vCard) -->
           <div id="ios-contact-sheet" class="ios-sheet" style="display: none;">
             <div class="ios-sheet-header">
-              <div class="ios-avatar" id="sheet-avatar">R</div>
-              <h3 id="sheet-name">Reuben</h3>
+              <div class="ios-avatar" id="sheet-avatar">A</div>
+              <h3 id="sheet-name">Alex Doe</h3>
               <p id="sheet-headline">Full Stack Developer &bull; Tech Studio</p>
             </div>
             <div class="ios-actions-row">
@@ -113,15 +113,15 @@
             <div class="ios-sheet-details">
               <div class="ios-detail-row">
                 <span class="detail-label">phone</span>
-                <span class="detail-val" id="sheet-phone">+61 400 123 456</span>
+                <span class="detail-val" id="sheet-phone">+1 (555) 019-2834</span>
               </div>
               <div class="ios-detail-row">
                 <span class="detail-label">email</span>
-                <span class="detail-val" id="sheet-email">reuben@example.com</span>
+                <span class="detail-val" id="sheet-email">alex.doe@example.com</span>
               </div>
               <div class="ios-detail-row">
                 <span class="detail-label">homepage</span>
-                <span class="detail-val" id="sheet-url">https://github.com/reuben</span>
+                <span class="detail-val" id="sheet-url">https://github.com/yourusername</span>
               </div>
               <div class="ios-detail-row">
                 <span class="detail-label">note</span>
@@ -143,7 +143,7 @@
               </div>
               <div class="flipper-body">
                 <div class="flipper-info">
-                  <div id="lcd-name">Reuben</div>
+                  <div id="lcd-name">Alex Doe</div>
                   <div id="lcd-subtitle" style="font-size: 11px; opacity: 0.85;">Developer</div>
                   <div id="lcd-extra" style="font-size: 10px; margin-top: 4px;">&#128225; Ready to tap</div>
                 </div>
@@ -166,7 +166,7 @@
             <li>Connect your Flipper to your PC (via <strong>qFlipper</strong>) or phone (via <strong>Flipper Mobile App</strong>).</li>
             <li>Transfer the downloaded file to: <span class="tag-highlight">SD Card &gt; nfc/</span></li>
             <li>On Flipper: Select <strong>NFC &gt; Saved &gt; [Your File] &gt; Emulate</strong>.</li>
-            <li><strong>The Tap Sweet Spot:</strong> Touch the <strong>top edge</strong> of the iPhone against the <strong>back</strong> of the Flipper. The contact sheet will open immediately!</li>
+            <li><strong>The Tap Sweet Spot:</strong> Touch the <strong>top edge</strong> of the iPhone against the <strong>back</strong> of the Flipper. The link or contact prompt will appear!</li>
           </ol>
         </div>
       </div>
