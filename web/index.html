@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flipper Zero NFC Card Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-badge">?? Flipper Zero Studio</div>
+      <h1>NFC <span>Digital Business Card</span> Builder</h1>
+      <p class="subtitle">Generate 100% iOS & Android background-scanning NTAG215 cards for your Flipper</p>
+    </header>
+
+    <div class="studio-grid">
+      <!-- Editor Form -->
+      <div class="glass-panel">
+        <h2 class="panel-title">?? Configure Card</h2>
+
+        <div class="tab-group">
+          <button id="tab-url" class="tab-btn active" onclick="switchMode('url')">?? Website / Link</button>
+          <button id="tab-vcard" class="tab-btn" onclick="switchMode('vcard')">?? Contact vCard</button>
+        </div>
+
+        <div id="url-fields">
+          <div class="form-group">
+            <label for="input-url">Destination URL</label>
+            <input type="url" id="input-url" placeholder="https://linkedin.com/in/yourname" value="https://github.com/reuben">
+          </div>
+          <div class="form-group">
+            <label for="input-url-title">Badge Label / Handle</label>
+            <input type="text" id="input-url-title" placeholder="@yourhandle" value="Reuben">
+          </div>
+          <div class="form-group">
+            <label for="input-url-subtitle">Subtitle</label>
+            <input type="text" id="input-url-subtitle" placeholder="Software Engineer" value="Developer">
+          </div>
+        </div>
+
+        <div id="vcard-fields" style="display: none;">
+          <div class="form-group">
+            <label for="input-vcard-name">Full Name *</label>
+            <input type="text" id="input-vcard-name" placeholder="John Doe" value="Reuben">
+          </div>
+          <div class="form-group">
+            <label for="input-vcard-role">Title / Role</label>
+            <input type="text" id="input-vcard-role" placeholder="Senior Developer" value="Full Stack Developer">
+          </div>
+          <div class="form-group">
+            <label for="input-vcard-org">Company / Org</label>
+            <input type="text" id="input-vcard-org" placeholder="Acme Corp" value="Tech Studio">
+          </div>
+          <div class="form-group">
+            <label for="input-vcard-phone">Phone Number</label>
+            <input type="tel" id="input-vcard-phone" placeholder="+1 (555) 019-2834" value="+61 400 123 456">
+          </div>
+          <div class="form-group">
+            <label for="input-vcard-email">Email Address</label>
+            <input type="email" id="input-vcard-email" placeholder="john@example.com" value="reuben@example.com">
+          </div>
+          <div class="form-group">
+            <label for="input-vcard-url">Website / Portfolio</label>
+            <input type="url" id="input-vcard-url" placeholder="https://mywebsite.com" value="https://github.com/reuben">
+          </div>
+        </div>
+
+        <button class="btn-generate" onclick="generateAndDownloadNFC()">
+          ?? Download Flipper .nfc File
+        </button>
+      </div>
+
+      <!-- Live Previews -->
+      <div class="preview-section">
+        <!-- iOS Pop-up Simulation -->
+        <div class="glass-panel">
+          <h2 class="panel-title">?? Live iPhone Tap Simulation</h2>
+          <div class="ios-banner-container">
+            <div class="ios-notification">
+              <div class="ios-icon" id="ios-icon">??</div>
+              <div class="ios-text">
+                <h4 id="ios-title">Website NFC Tag</h4>
+                <p id="ios-subtitle">Open "https://github.com/reuben" in Safari</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flipper LCD Simulation -->
+        <div class="glass-panel">
+          <h2 class="panel-title">?? Flipper 128x64 LCD Display</h2>
+          <div class="flipper-screen-container">
+            <div class="flipper-lcd">
+              <div class="flipper-header">
+                <span>NFC EMULATING</span>
+                <span>NTAG215</span>
+              </div>
+              <div class="flipper-body">
+                <div class="flipper-info">
+                  <div id="lcd-name">Reuben</div>
+                  <div id="lcd-subtitle" style="font-size: 11px; opacity: 0.85;">Developer</div>
+                  <div id="lcd-extra" style="font-size: 10px; margin-top: 4px;">?? Ready to tap</div>
+                </div>
+                <div style="font-size: 32px; font-weight: bold; border: 2px solid #221400; padding: 4px 6px;">
+                  NFC
+                </div>
+              </div>
+              <div class="flipper-footer">
+                [BACK] Stop &nbsp;&nbsp;&nbsp; [OK] Info
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- How to Tap Instructions -->
+        <div class="guide-box">
+          <strong>? How to Beam to Any iPhone:</strong>
+          <ol>
+            <li>Put the downloaded <span class="tag-highlight">.nfc</span> file into your Flipper's <span class="tag-highlight">/ext/nfc/</span> folder via <strong>qFlipper</strong> or the Flipper Mobile App.</li>
+            <li>On Flipper: Select <strong>NFC &gt; Saved &gt; [Your Card] &gt; Emulate</strong>.</li>
+            <li><strong>The Tap Sweet Spot:</strong> Touch the <strong>top edge</strong> of the iPhone against the <strong>back</strong> of the Flipper. iOS will immediately display the banner above!</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

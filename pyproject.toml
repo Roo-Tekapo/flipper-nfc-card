@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flipper-bizcard"
+version = "1.0.0"
+description = "High-compatibility NFC Digital Business Card generator for Flipper Zero (iOS & Android compatible)"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "Reube" }]
+dependencies = [
+    "rich>=13.0.0",
+    "qrcode>=7.4.0",
+    "pillow>=10.0.0",
+]
+
+[project.scripts]
+bizcard = "flipper_bizcard.cli:main"
