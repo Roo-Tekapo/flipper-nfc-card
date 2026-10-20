@@ -232,21 +232,32 @@ function formatNtag215(tlvData) {
   return { uid, pages };
 }
 
-// Serialize to Flipper .nfc format
+// Serialize to official Flipper v4 NTAG/Ultralight .nfc format
 function serializeToFlipperNfc(uid, pages) {
   const uidStr = uid.map((b) => b.toString(16).padStart(2, "0").toUpperCase()).join(" ");
   const lines = [
     "Filetype: Flipper NFC device",
     "Version: 4",
-    "# Device type can be ISO14443-3A or NTAG215",
-    "Device type: NTAG215",
-    "# UID, ATQA and SAK are common for all formats",
+    "# Device type can be ISO14443-3A, ISO14443-3B, ISO14443-4A, ISO14443-4B, ISO15693-3, FeliCa, NTAG/Ultralight, Mifare Classic, Mifare Plus, Mifare DESFire, SLIX, ST25TB",
+    "Device type: NTAG/Ultralight",
+    "# UID is common for all formats",
     `UID: ${uidStr}`,
+    "# ISO14443-3A specific data",
     "ATQA: 00 44",
     "SAK: 00",
-    "# Mifare Ultralight specific data",
-    "Data size: 540",
-    `Pages total: ${pages.length}`
+    "# NTAG/Ultralight specific data",
+    "Data format version: 2",
+    "NTAG/Ultralight type: NTAG215",
+    "Signature: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+    "Mifare version: 00 04 04 02 01 00 11 03",
+    "Counter 0: 0",
+    "Tearing 0: 00",
+    "Counter 1: 0",
+    "Tearing 1: 00",
+    "Counter 2: 0",
+    "Tearing 2: 00",
+    `Pages total: ${pages.length}`,
+    `Pages read: ${pages.length}`
   ];
 
   for (let i = 0; i < pages.length; i++) {
@@ -255,6 +266,7 @@ function serializeToFlipperNfc(uid, pages) {
   }
 
   lines.push("Failed authentication attempts: 0");
+  // Strict Unix LF line endings
   return lines.join("\n") + "\n";
 }
 
@@ -298,7 +310,7 @@ function generateAndDownloadNFC() {
   const { uid, pages } = formatNtag215(tlvData);
   const nfcContent = serializeToFlipperNfc(uid, pages);
 
-  // Trigger download
+  // Trigger download with text/plain and strict LF
   const blob = new Blob([nfcContent], { type: "text/plain;charset=utf-8" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);

@@ -1,28 +1,43 @@
 ﻿"""Flipper Zero .nfc File Serializer and Inspector.
 
-Generates and parses official Flipper Zero NFC device files (Version 4).
+Generates and parses official Flipper Zero NFC device files (Version 4, NTAG/Ultralight).
+Strictly uses Unix LF (\n) line endings required by Flipper OS LittlevGL parser.
 """
 
-import re
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 from flipper_bizcard.encoder.ndef import URI_PREFIXES
 
 
 def serialize_flipper_nfc(pages: List[bytes], uid: bytes) -> str:
-    """Serialize NTAG215 pages and UID into the official Flipper .nfc file format."""
+    """Serialize NTAG215 pages and UID into the official Flipper .nfc file format.
+
+    Uses Device type: NTAG/Ultralight with Data format version: 2 and NTAG/Ultralight type: NTAG215.
+    Ensures LF line endings.
+    """
     uid_str = " ".join(f"{b:02X}" for b in uid)
     lines = [
         "Filetype: Flipper NFC device",
         "Version: 4",
-        "# Device type can be ISO14443-3A or NTAG215",
-        "Device type: NTAG215",
-        "# UID, ATQA and SAK are common for all formats",
+        "# Device type can be ISO14443-3A, ISO14443-3B, ISO14443-4A, ISO14443-4B, ISO15693-3, FeliCa, NTAG/Ultralight, Mifare Classic, Mifare Plus, Mifare DESFire, SLIX, ST25TB",
+        "Device type: NTAG/Ultralight",
+        "# UID is common for all formats",
         f"UID: {uid_str}",
+        "# ISO14443-3A specific data",
         "ATQA: 00 44",
         "SAK: 00",
-        "# Mifare Ultralight specific data",
-        "Data size: 540",
+        "# NTAG/Ultralight specific data",
+        "Data format version: 2",
+        "NTAG/Ultralight type: NTAG215",
+        "Signature: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "Mifare version: 00 04 04 02 01 00 11 03",
+        "Counter 0: 0",
+        "Tearing 0: 00",
+        "Counter 1: 0",
+        "Tearing 1: 00",
+        "Counter 2: 0",
+        "Tearing 2: 00",
         f"Pages total: {len(pages)}",
+        f"Pages read: {len(pages)}",
     ]
 
     for idx, page in enumerate(pages):
@@ -30,6 +45,7 @@ def serialize_flipper_nfc(pages: List[bytes], uid: bytes) -> str:
         lines.append(f"Page {idx}: {page_hex}")
 
     lines.append("Failed authentication attempts: 0")
+    # Join with strict Unix LF line endings
     return "\n".join(lines) + "\n"
 
 
@@ -39,6 +55,7 @@ def parse_flipper_nfc(content: str) -> Dict[str, Any]:
         "filetype": None,
         "version": None,
         "device_type": None,
+        "ntag_type": None,
         "uid": None,
         "atqa": None,
         "sak": None,
@@ -63,6 +80,8 @@ def parse_flipper_nfc(content: str) -> Dict[str, Any]:
                 metadata["version"] = val
             elif key == "Device type":
                 metadata["device_type"] = val
+            elif key == "NTAG/Ultralight type":
+                metadata["ntag_type"] = val
             elif key == "UID":
                 metadata["uid"] = val
             elif key == "ATQA":
@@ -78,7 +97,8 @@ def parse_flipper_nfc(content: str) -> Dict[str, Any]:
                     pass
 
     # Check compatibility
-    if metadata.get("device_type") in ("NTAG215", "NTAG213", "NTAG216", "Mifare Ultralight"):
+    is_ntag = metadata.get("device_type") == "NTAG/Ultralight" or metadata.get("ntag_type") in ("NTAG215", "NTAG213", "NTAG216")
+    if is_ntag:
         metadata["compatibility_notes"].append("Device type is supported by iOS background NFC.")
     else:
         metadata["compatibility_notes"].append(
@@ -106,7 +126,7 @@ def parse_flipper_nfc(content: str) -> Dict[str, Any]:
     # Decode NDEF from user memory
     _decode_ndef_tlv(metadata["raw_user_bytes"], metadata)
 
-    if metadata["ndef_records"] and metadata.get("device_type") == "NTAG215":
+    if metadata["ndef_records"] and is_ntag:
         metadata["ios_compatible"] = True
 
     return metadata
