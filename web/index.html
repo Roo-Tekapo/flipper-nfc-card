@@ -9,32 +9,33 @@
 <body>
   <div class="container">
     <header>
-      <div class="header-badge">?? Flipper Zero Studio</div>
+      <div class="header-badge">&#128044; Flipper Zero Studio</div>
       <h1>NFC <span>Digital Business Card</span> Builder</h1>
-      <p class="subtitle">Generate 100% iOS & Android background-scanning NTAG215 cards for your Flipper</p>
+      <p class="subtitle">Generate 100% iOS &amp; Android background-scanning NTAG215 cards for your Flipper</p>
     </header>
 
     <div class="studio-grid">
       <!-- Editor Form -->
       <div class="glass-panel">
-        <h2 class="panel-title">?? Configure Card</h2>
+        <h2 class="panel-title">&#9881;&#65039; Configure Your Card</h2>
 
         <div class="tab-group">
-          <button id="tab-url" class="tab-btn active" onclick="switchMode('url')">?? Website / Link</button>
-          <button id="tab-vcard" class="tab-btn" onclick="switchMode('vcard')">?? Contact vCard</button>
+          <button id="tab-url" class="tab-btn active" onclick="switchMode('url')">&#127760; Website / Link</button>
+          <button id="tab-vcard" class="tab-btn" onclick="switchMode('vcard')">&#128100; Contact vCard</button>
         </div>
 
         <div id="url-fields">
           <div class="form-group">
-            <label for="input-url">Destination URL</label>
+            <label for="input-url">Destination URL *</label>
             <input type="url" id="input-url" placeholder="https://linkedin.com/in/yourname" value="https://github.com/reuben">
+            <small class="field-hint">Opens directly in Safari or Chrome when tapped.</small>
           </div>
           <div class="form-group">
-            <label for="input-url-title">Badge Label / Handle</label>
-            <input type="text" id="input-url-title" placeholder="@yourhandle" value="Reuben">
+            <label for="input-url-title">Your Name / Handle</label>
+            <input type="text" id="input-url-title" placeholder="Reuben" value="Reuben">
           </div>
           <div class="form-group">
-            <label for="input-url-subtitle">Subtitle</label>
+            <label for="input-url-subtitle">Role / Subtitle</label>
             <input type="text" id="input-url-subtitle" placeholder="Software Engineer" value="Developer">
           </div>
         </div>
@@ -42,54 +43,98 @@
         <div id="vcard-fields" style="display: none;">
           <div class="form-group">
             <label for="input-vcard-name">Full Name *</label>
-            <input type="text" id="input-vcard-name" placeholder="John Doe" value="Reuben">
+            <input type="text" id="input-vcard-name" placeholder="Reuben" value="Reuben">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="input-vcard-role">Job Title / Role</label>
+              <input type="text" id="input-vcard-role" placeholder="Full Stack Developer" value="Full Stack Developer">
+            </div>
+            <div class="form-group">
+              <label for="input-vcard-org">Company / Organization</label>
+              <input type="text" id="input-vcard-org" placeholder="Studio" value="Tech Studio">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="input-vcard-phone">Phone Number</label>
+              <input type="tel" id="input-vcard-phone" placeholder="+61 400 123 456" value="+61 400 123 456">
+            </div>
+            <div class="form-group">
+              <label for="input-vcard-email">Email Address</label>
+              <input type="email" id="input-vcard-email" placeholder="reuben@example.com" value="reuben@example.com">
+            </div>
           </div>
           <div class="form-group">
-            <label for="input-vcard-role">Title / Role</label>
-            <input type="text" id="input-vcard-role" placeholder="Senior Developer" value="Full Stack Developer">
+            <label for="input-vcard-url">Website / Portfolio / LinkedIn</label>
+            <input type="url" id="input-vcard-url" placeholder="https://github.com/reuben" value="https://github.com/reuben">
           </div>
           <div class="form-group">
-            <label for="input-vcard-org">Company / Org</label>
-            <input type="text" id="input-vcard-org" placeholder="Acme Corp" value="Tech Studio">
-          </div>
-          <div class="form-group">
-            <label for="input-vcard-phone">Phone Number</label>
-            <input type="tel" id="input-vcard-phone" placeholder="+1 (555) 019-2834" value="+61 400 123 456">
-          </div>
-          <div class="form-group">
-            <label for="input-vcard-email">Email Address</label>
-            <input type="email" id="input-vcard-email" placeholder="john@example.com" value="reuben@example.com">
-          </div>
-          <div class="form-group">
-            <label for="input-vcard-url">Website / Portfolio</label>
-            <input type="url" id="input-vcard-url" placeholder="https://mywebsite.com" value="https://github.com/reuben">
+            <label for="input-vcard-note">Bio / Note</label>
+            <input type="text" id="input-vcard-note" placeholder="Met via Flipper NFC" value="Met via Flipper Zero NFC">
           </div>
         </div>
 
         <button class="btn-generate" onclick="generateAndDownloadNFC()">
-          ?? Download Flipper .nfc File
+          &#128229; Download Flipper .nfc File
         </button>
       </div>
 
       <!-- Live Previews -->
       <div class="preview-section">
-        <!-- iOS Pop-up Simulation -->
+        <!-- iOS Pop-up & Contact Card Simulation -->
         <div class="glass-panel">
-          <h2 class="panel-title">?? Live iPhone Tap Simulation</h2>
+          <h2 class="panel-title">&#128241; Live iPhone Screen Simulation</h2>
+          
+          <!-- Top Dropdown Banner -->
           <div class="ios-banner-container">
             <div class="ios-notification">
-              <div class="ios-icon" id="ios-icon">??</div>
+              <div class="ios-icon" id="ios-icon">&#127760;</div>
               <div class="ios-text">
                 <h4 id="ios-title">Website NFC Tag</h4>
                 <p id="ios-subtitle">Open "https://github.com/reuben" in Safari</p>
               </div>
             </div>
           </div>
+
+          <!-- Expanded iOS Contact Sheet Preview (for vCard) -->
+          <div id="ios-contact-sheet" class="ios-sheet" style="display: none;">
+            <div class="ios-sheet-header">
+              <div class="ios-avatar" id="sheet-avatar">R</div>
+              <h3 id="sheet-name">Reuben</h3>
+              <p id="sheet-headline">Full Stack Developer &bull; Tech Studio</p>
+            </div>
+            <div class="ios-actions-row">
+              <div class="ios-action-btn">&#128222;<span>call</span></div>
+              <div class="ios-action-btn">&#128172;<span>message</span></div>
+              <div class="ios-action-btn">&#9993;&#65039;<span>mail</span></div>
+              <div class="ios-action-btn">&#127760;<span>website</span></div>
+            </div>
+            <div class="ios-sheet-details">
+              <div class="ios-detail-row">
+                <span class="detail-label">phone</span>
+                <span class="detail-val" id="sheet-phone">+61 400 123 456</span>
+              </div>
+              <div class="ios-detail-row">
+                <span class="detail-label">email</span>
+                <span class="detail-val" id="sheet-email">reuben@example.com</span>
+              </div>
+              <div class="ios-detail-row">
+                <span class="detail-label">homepage</span>
+                <span class="detail-val" id="sheet-url">https://github.com/reuben</span>
+              </div>
+              <div class="ios-detail-row">
+                <span class="detail-label">note</span>
+                <span class="detail-val" id="sheet-note">Met via Flipper Zero NFC</span>
+              </div>
+            </div>
+            <button class="ios-save-btn">&#43; Create New Contact</button>
+          </div>
         </div>
 
         <!-- Flipper LCD Simulation -->
         <div class="glass-panel">
-          <h2 class="panel-title">?? Flipper 128x64 LCD Display</h2>
+          <h2 class="panel-title">&#128044; Flipper 128x64 LCD Display</h2>
           <div class="flipper-screen-container">
             <div class="flipper-lcd">
               <div class="flipper-header">
@@ -100,9 +145,9 @@
                 <div class="flipper-info">
                   <div id="lcd-name">Reuben</div>
                   <div id="lcd-subtitle" style="font-size: 11px; opacity: 0.85;">Developer</div>
-                  <div id="lcd-extra" style="font-size: 10px; margin-top: 4px;">?? Ready to tap</div>
+                  <div id="lcd-extra" style="font-size: 10px; margin-top: 4px;">&#128225; Ready to tap</div>
                 </div>
-                <div style="font-size: 32px; font-weight: bold; border: 2px solid #221400; padding: 4px 6px;">
+                <div style="font-size: 28px; font-weight: bold; border: 2px solid #221400; padding: 4px 6px;">
                   NFC
                 </div>
               </div>
@@ -115,11 +160,13 @@
 
         <!-- How to Tap Instructions -->
         <div class="guide-box">
-          <strong>? How to Beam to Any iPhone:</strong>
+          <strong>&#9889; Step-by-Step: How to Use on Flipper Zero:</strong>
           <ol>
-            <li>Put the downloaded <span class="tag-highlight">.nfc</span> file into your Flipper's <span class="tag-highlight">/ext/nfc/</span> folder via <strong>qFlipper</strong> or the Flipper Mobile App.</li>
-            <li>On Flipper: Select <strong>NFC &gt; Saved &gt; [Your Card] &gt; Emulate</strong>.</li>
-            <li><strong>The Tap Sweet Spot:</strong> Touch the <strong>top edge</strong> of the iPhone against the <strong>back</strong> of the Flipper. iOS will immediately display the banner above!</li>
+            <li>Fill in your details and click <strong>"Download Flipper .nfc File"</strong>.</li>
+            <li>Connect your Flipper to your PC (via <strong>qFlipper</strong>) or phone (via <strong>Flipper Mobile App</strong>).</li>
+            <li>Transfer the downloaded file to: <span class="tag-highlight">SD Card &gt; nfc/</span></li>
+            <li>On Flipper: Select <strong>NFC &gt; Saved &gt; [Your File] &gt; Emulate</strong>.</li>
+            <li><strong>The Tap Sweet Spot:</strong> Touch the <strong>top edge</strong> of the iPhone against the <strong>back</strong> of the Flipper. The contact sheet will open immediately!</li>
           </ol>
         </div>
       </div>

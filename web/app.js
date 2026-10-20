@@ -18,6 +18,11 @@ function switchMode(mode) {
   document.getElementById("url-fields").style.display = mode === "url" ? "block" : "none";
   document.getElementById("vcard-fields").style.display = mode === "vcard" ? "block" : "none";
 
+  const contactSheet = document.getElementById("ios-contact-sheet");
+  if (contactSheet) {
+    contactSheet.style.display = mode === "vcard" ? "block" : "none";
+  }
+
   updatePreview();
 }
 
@@ -27,35 +32,62 @@ function updatePreview() {
   const iosSubtitle = document.getElementById("ios-subtitle");
   const lcdName = document.getElementById("lcd-name");
   const lcdSubtitle = document.getElementById("lcd-subtitle");
+  const lcdExtra = document.getElementById("lcd-extra");
 
   if (currentMode === "url") {
     const url = document.getElementById("input-url").value.trim() || "https://flipperzero.one";
     const name = document.getElementById("input-url-title").value.trim() || "Link";
     const subtitle = document.getElementById("input-url-subtitle").value.trim() || "Website";
 
-    iosIcon.textContent = "??";
+    iosIcon.innerHTML = "&#127760;";
     iosIcon.style.background = "#007aff";
     iosTitle.textContent = "Website NFC Tag";
     iosSubtitle.textContent = `Open "${url}" in Safari`;
 
     lcdName.textContent = name;
     lcdSubtitle.textContent = subtitle;
+    lcdExtra.innerHTML = "&#128225; Ready to beam link";
   } else {
-    const name = document.getElementById("input-vcard-name").value.trim() || "Contact";
-    const role = document.getElementById("input-vcard-role").value.trim() || "Business Card";
+    const name = document.getElementById("input-vcard-name").value.trim() || "Reuben";
+    const role = document.getElementById("input-vcard-role").value.trim() || "Developer";
     const org = document.getElementById("input-vcard-org").value.trim();
+    const phone = document.getElementById("input-vcard-phone").value.trim() || "+61 400 123 456";
+    const email = document.getElementById("input-vcard-email").value.trim() || "reuben@example.com";
+    const url = document.getElementById("input-vcard-url").value.trim() || "https://github.com/reuben";
+    const note = document.getElementById("input-vcard-note") ? document.getElementById("input-vcard-note").value.trim() : "Met via Flipper NFC";
 
-    iosIcon.textContent = "??";
+    iosIcon.innerHTML = "&#128100;";
     iosIcon.style.background = "#34c759";
     iosTitle.textContent = "Contact Card";
     iosSubtitle.textContent = `Add "${name}${org ? ' - ' + org : ''}" to Contacts`;
 
+    // Update Flipper LCD
     lcdName.textContent = name;
     lcdSubtitle.textContent = role;
+    lcdExtra.textContent = org ? org.slice(0, 16) : "vCard Contact";
+
+    // Update Expanded iOS Sheet Preview
+    const avatarEl = document.getElementById("sheet-avatar");
+    const sheetNameEl = document.getElementById("sheet-name");
+    const sheetHeadlineEl = document.getElementById("sheet-headline");
+    const sheetPhoneEl = document.getElementById("sheet-phone");
+    const sheetEmailEl = document.getElementById("sheet-email");
+    const sheetUrlEl = document.getElementById("sheet-url");
+    const sheetNoteEl = document.getElementById("sheet-note");
+
+    if (avatarEl) avatarEl.textContent = name.charAt(0).toUpperCase() || "R";
+    if (sheetNameEl) sheetNameEl.textContent = name;
+    if (sheetHeadlineEl) {
+      sheetHeadlineEl.textContent = [role, org].filter(Boolean).join(" • ") || "Contact";
+    }
+    if (sheetPhoneEl) sheetPhoneEl.textContent = phone;
+    if (sheetEmailEl) sheetEmailEl.textContent = email;
+    if (sheetUrlEl) sheetUrlEl.textContent = url;
+    if (sheetNoteEl) sheetNoteEl.textContent = note;
   }
 }
 
-// Attach event listeners
+// Attach event listeners to all inputs
 document.querySelectorAll("input").forEach((inp) => {
   inp.addEventListener("input", updatePreview);
 });
@@ -90,7 +122,7 @@ function buildNdefUriRecord(url) {
 }
 
 // Build NDEF vCard Record
-function buildNdefVCardRecord(name, role, org, phone, email, url) {
+function buildNdefVCardRecord(name, role, org, phone, email, url, note) {
   const lines = [
     "BEGIN:VCARD",
     "VERSION:3.0",
@@ -109,6 +141,7 @@ function buildNdefVCardRecord(name, role, org, phone, email, url) {
   if (phone) lines.push(`TEL;TYPE=CELL,VOICE:${phone}`);
   if (email) lines.push(`EMAIL;TYPE=INTERNET,WORK:${email}`);
   if (url) lines.push(`URL:${url}`);
+  if (note) lines.push(`NOTE:${note}`);
   lines.push("END:VCARD");
 
   const vcardText = lines.join("\r\n");
@@ -249,8 +282,9 @@ function generateAndDownloadNFC() {
     const phone = document.getElementById("input-vcard-phone").value.trim();
     const email = document.getElementById("input-vcard-email").value.trim();
     const url = document.getElementById("input-vcard-url").value.trim();
+    const note = document.getElementById("input-vcard-note") ? document.getElementById("input-vcard-note").value.trim() : "";
 
-    ndefMessage = buildNdefVCardRecord(name, role, org, phone, email, url);
+    ndefMessage = buildNdefVCardRecord(name, role, org, phone, email, url, note);
     const cleanName = name.toLowerCase().replace(/[^a-z0-9_]/g, "_");
     filename = `${cleanName}_vcard.nfc`;
   }
