@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "High-compatibility NFC Digital Business Card generator for Flipper Zero (iOS & Android compatible)"
 readme = "README.md"
 requires-python = ">=3.9"
-authors = [{ name = "Reuben" }]
+authors = [{ name = "Flipper Community" }]
 dependencies = [
     "rich>=13.0.0",
     "qrcode>=7.4.0",
